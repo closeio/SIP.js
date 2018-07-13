@@ -406,7 +406,6 @@ MediaHandler.prototype = Object.create(SIP.MediaHandler.prototype, {
       self.emit('iceCandidate', e);
       if (e.candidate) {
         self.logger.log('ICE candidate received: '+ (e.candidate.candidate === null ? null : e.candidate.candidate.trim()));
-        self.startIceCheckingTimer();
       } else {
         self.onIceCompleted.resolve(this);
       }
@@ -416,6 +415,7 @@ MediaHandler.prototype = Object.create(SIP.MediaHandler.prototype, {
       self.logger.log('RTCIceGatheringState changed: ' + this.iceGatheringState);
       if (this.iceGatheringState === 'gathering') {
         self.emit('iceGathering', this);
+        self.startIceCheckingTimer();
       }
       if (this.iceGatheringState === 'complete') {
         self.onIceCompleted.resolve(this);

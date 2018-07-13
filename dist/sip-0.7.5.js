@@ -1,6 +1,6 @@
 /*
  * SIP version 0.7.5
- * Copyright (c) 2014-2016 Junction Networks, Inc <http://www.onsip.com>
+ * Copyright (c) 2014-2018 Junction Networks, Inc <http://www.onsip.com>
  * Homepage: http://sipjs.com
  * License: http://sipjs.com/license/
  *
@@ -11361,7 +11361,6 @@ MediaHandler.prototype = Object.create(SIP.MediaHandler.prototype, {
       self.emit('iceCandidate', e);
       if (e.candidate) {
         self.logger.log('ICE candidate received: '+ (e.candidate.candidate === null ? null : e.candidate.candidate.trim()));
-        self.startIceCheckingTimer();
       } else {
         self.onIceCompleted.resolve(this);
       }
@@ -11371,6 +11370,7 @@ MediaHandler.prototype = Object.create(SIP.MediaHandler.prototype, {
       self.logger.log('RTCIceGatheringState changed: ' + this.iceGatheringState);
       if (this.iceGatheringState === 'gathering') {
         self.emit('iceGathering', this);
+        self.startIceCheckingTimer();
       }
       if (this.iceGatheringState === 'complete') {
         self.onIceCompleted.resolve(this);
